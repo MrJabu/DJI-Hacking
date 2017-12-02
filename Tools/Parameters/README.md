@@ -1,5 +1,17 @@
 Ability to modify device parameters
 
+
+
+This can be done on any version you use.
+In the folder you created go to \DJI Assistant 2\AppFiles
+With Notepad++, edit the main.js file. (Notepad++ here: https://notepad-plus-plus.org - just get it. Great program for editing.
+Look for " // mainWindow.webContents.openDevTools()"
+Delete the "// " (slash slash from that line
+Save the file
+
+
+
+
 Change descend rate in GPS mode for faster descend rate, but not as fast as Sport+
 normal_cfg_vel_down -3(stock) -6
 normal_cfg_acc_down -5(stock) -6
