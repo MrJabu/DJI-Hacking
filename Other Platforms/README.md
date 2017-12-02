@@ -1,0 +1,1 @@
+For Non DJI platforms
