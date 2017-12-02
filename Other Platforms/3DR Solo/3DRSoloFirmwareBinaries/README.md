@@ -61,3 +61,4 @@ MD5 (ArduCopter-1.2.24.px4) = 866f39082f134e76e95beed2e95ea2ae
 MD5 (ArduCopter-1.3.1.px4) = 9cb58d4d1a580996329fc38afa6e5de8
 MD5 (ArduCopter-2.0.20.px4) = c377b4a8003cadbc8844f4cdfa1740f9
 ```
+

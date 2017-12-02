@@ -1,0 +1,13 @@
+As discussed on 3DR Solo Hacks Facebook group - https://www.facebook.com/groups/363840837156620/permalink/541136306093738/
+
+'when I changed the SERIAL2_PROTOCOL to 1 it bricked my Solo and it wouldn't boot properly (only fix that worked was to swap out the cube).'
+
+Several others have experienced this behavior, it often happens when attempting to install NightRaptor 900mhz mod
+
+I can confirm that the system  is happy with the settings and this binary... (in the sense that it is no longer bricked) 
+https://github.com/MAVProxyUser/3DRSoloFirmwareBinaries/raw/master/ArduCopter-2.0.20.px4 and 
+https://github.com/MAVProxyUser/3DRSoloFirmwareBinaries/raw/master/ArduCopter-1.2.24.px4 (the one with SiteScan) are not impacted... 
+https://github.com/MAVProxyUser/3DRSoloFirmwareBinaries/raw/master/ArduCopter-1.2.23.px4 was *OK* as well... 
+
+I did NOT test anything prior to that. (likewise I did not test the Telemetry functionality yet).
+
