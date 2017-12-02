@@ -1,0 +1,49 @@
+PaXtest - Copyright(c) 2003,2004 by Peter Busser <peter@adamantix.org>
+Released under the GNU Public Licence version 2 or later
+
+Mode: kiddie
+Linux 3dr_controller 3.10.17-rt12-1.0.0_ga+g3f15a11 #3 SMP PREEMPT Fri Jun 26 22:13:42 UTC 2015 armv7l GNU/Linux
+
+Executable anonymous mapping             : Killed
+Executable bss                           : Killed
+Executable data                          : Killed
+Executable heap                          : Killed
+Executable stack                         : Killed
+Executable shared library bss            : Killed
+Executable shared library data           : Killed
+Executable anonymous mapping (mprotect)  : Killed
+Executable bss (mprotect)                : Killed
+Executable data (mprotect)               : Killed
+Executable heap (mprotect)               : Killed
+Executable stack (mprotect)              : Killed
+Executable shared library bss (mprotect) : Killed
+Executable shared library data (mprotect): Killed
+Writable text segments                   : Vulnerable
+sh: ./getamap: No such file or directory
+./getamap: Success
+Anonymous mapping randomisation test     : sh: ./getheap1: No such file or directory
+./getheap1: Success
+Heap randomisation test (ET_EXEC)        : sh: ./getheap2: No such file or directory
+./getheap2: Success
+Heap randomisation test (PIE)            : sh: ./getmain1: No such file or directory
+./getmain1: Success
+Main executable randomisation (ET_EXEC)  : sh: ./getmain2: No such file or directory
+./getmain2: Success
+Main executable randomisation (PIE)      : sh: ./getshlib: No such file or directory
+./getshlib: Success
+Shared library randomisation test        : sh: ./getstack1: No such file or directory
+./getstack1: Success
+Stack randomisation test (SEGMEXEC)      : sh: ./getstack2: No such file or directory
+./getstack2: Success
+Stack randomisation test (PAGEEXEC)      : sh: ./getarg1: No such file or directory
+./getarg1: Success
+Arg/env randomisation test (SEGMEXEC)    : sh: ./getarg2: No such file or directory
+./getarg2: Success
+Arg/env randomisation test (PAGEEXEC)    : sh: ./getexhaust1: No such file or directory
+./getexhaust1: Success
+Randomization under memory exhaustion @~0: sh: ./getexhaust2: No such file or directory
+./getexhaust2: Success
+Randomization under memory exhaustion @0 : Return to function (strcpy)              : paxtest: return address contains a NULL byte.
+Return to function (memcpy)              : Vulnerable
+Return to function (strcpy, PIE)         : paxtest: return address contains a NULL byte.
+Return to function (memcpy, PIE)         : Vulnerable
