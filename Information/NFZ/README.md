@@ -110,3 +110,4 @@ $ sqlite3 dji.nfzdb "select * from dji_midware_data_forbid_FlyForbidElement wher
 7822|1488077753|0|0|0|0||45.733101||32832|30000|368|NFZ 5 of Iraq|0|1|35.510926|2
 7823|1488078478|0|0|0|0||43.82148||32833|65000|368|NFZ 6 of Iraq|0|1|32.903738|2
 ```
+
