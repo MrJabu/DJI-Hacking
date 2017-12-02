@@ -1,0 +1,13 @@
+COMMUNITY NOTE
+This is the last FW version where the following parameters are able to be edited.
+“g_config_airport_limit_cfg_cfg_disable_airport_fly_limit”
+“g_config_airport_limit_cfg_cfg_limit_data” 
+=====================================================================
+ What’s New? 
+• Added support for DJI Goggles
+• Optimized gimbal self checking. 
+
+
+ Notes:
+ •Restart the aircraft and remote controller when the update is complete. 
+•If the firmware update fails, restart the aircraft, remote controller and DJI GO 4 or DJI Assistant 2, then try updating again.

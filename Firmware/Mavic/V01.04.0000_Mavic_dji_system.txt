@@ -1,0 +1,13 @@
+ What’s New? 
+• Added QuickShot feature (requires DJI GO 4 app v4.1.10 or higher).
+• Added Dynamic Home Point for ActiveTrack mode (requires DJI GO 4 app v4.1.10 or higher).
+• Added support for Mavic Pro Platinum firmware and 8331 Low-Noise Quick Release Propellers.
+• Adjusted the color in Normal mode to Vivid (requires DJI GO 4 app v4.1.10 or higher).
+• This firmware is also an update for DJI Goggles:
+• Adjusted the startup volume to be the same as the settings volume. 
+
+
+
+ Notes:
+ •Restart the aircraft and remote controller when the update is complete. 
+•If the firmware update fails, restart the aircraft, remote controller and DJI GO 4 or DJI Assistant 2, then try updating again.
