@@ -1,8 +1,3 @@
-
-## Info
-
-## Docs
-
 ## Websites
 
 http://dji.retroroms.info/
