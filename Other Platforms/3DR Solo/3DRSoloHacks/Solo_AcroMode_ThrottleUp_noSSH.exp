@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+
+spawn mavproxy.py --master=udpout:10.1.1.10:14560 --streamrate=1
+expect "MAV>"
+send "module load droneapi.module.api\n"
+expect "Loaded module droneapi.module.api"
+send "param set ARMING_CHECK 0\n"
+send "param show ARMING_CHECK\n"
+expect "ARMING_CHECK     0.000000"
+send "mode acro\n"
+expect "ACRO>"
+send "arm throttle\n"
+expect "ARMED"
+sleep 5
+send "disarm\n"
+expect "DISARMED"
+
+interact

@@ -1,0 +1,17 @@
+#!/usr/bin/expect -f
+
+spawn scp mal.py root@10.1.1.10:/tmp
+expect "root@10.1.1.10's password:"
+send "TjSDBkAu\n"
+expect "100%"
+spawn ssh 10.1.1.10 -l root
+expect "root@10.1.1.10's password:"
+send "TjSDBkAu\n"
+expect "root@3dr_solo"
+send "mavproxy.py --master=udpout:127.0.0.1:14560 --nolog --native --streamrate=1\n"
+expect "MAV>"
+send "module load droneapi.module.api\n"
+expect "Loaded module droneapi.module.api"
+send "api start /tmp/mal.py\n"
+
+interact

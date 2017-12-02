@@ -1,0 +1,26 @@
+#!/usr/bin/expect -f
+
+spawn ssh 10.1.1.10 -l root
+expect "root@10.1.1.10's password:"
+send "TjSDBkAu\n"
+expect "root@3dr_solo"
+send "mavproxy.py --master=udpout:127.0.0.1:14560 --nolog --native --streamrate=1\n"
+expect "MAV>"
+send "module load droneapi.module.api\n"
+expect "Loaded module droneapi.module.api"
+send "param set ARMING_CHECK 0\n"
+send "param show ARMING_CHECK\n"
+expect "ARMING_CHECK     0.000000"
+send "mode acro\n"
+expect "ACRO>"
+send "arm throttle\n"
+expect "ARMED"
+sleep 5
+send "disarm\n"
+expect "DISARMED"
+sleep 2
+send "\x03"
+expect "root@3dr_solo"
+send "exit\n"
+
+interact
