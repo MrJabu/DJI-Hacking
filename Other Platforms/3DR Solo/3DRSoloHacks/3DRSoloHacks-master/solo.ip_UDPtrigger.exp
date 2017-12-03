@@ -1,0 +1,14 @@
+#!/usr/bin/expect -f
+spawn ifconfig wlan0
+expect -re {inet addr:(\S+)}
+set ipaddr $expect_out(1,string)
+expect eof
+
+set output [open "/tmp/solo.ip" "w+"]
+puts $output $ipaddr
+close $output
+
+spawn scp /tmp/solo.ip root@10.1.1.1:/var/run/
+expect "root@10.1.1.1's password:"
+send "TjSDBkAu\n"
+expect "100%"
