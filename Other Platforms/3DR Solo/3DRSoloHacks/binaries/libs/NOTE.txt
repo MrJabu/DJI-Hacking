@@ -1,4 +1,0 @@
-in order to use these, they MUST be in your library path. If you do not wish to move them permanantly, you can use the following: 
-
-root@3dr_controller:/tmp# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
-
