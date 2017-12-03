@@ -38,3 +38,5 @@ done
 # Video
 
 https://www.youtube.com/watch?v=OxpsdW9zY2E
+
+https://phantompilots.com/threads/made-some-rf-discoveries-today.114145/
