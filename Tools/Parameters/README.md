@@ -2,11 +2,24 @@
 
 
 This can be done on any version you use.
+
 In the folder you created go to \DJI Assistant 2\AppFiles
+
 With Notepad++, edit the main.js file. (Notepad++ here: https://notepad-plus-plus.org - just get it. Great program for editing.
+
 Look for " // mainWindow.webContents.openDevTools()"
-Delete the "// " (slash slash from that line
+
+Delete the "// " (slash slash from that line)
+
 Save the file
+
+Open DJI Assistant 2
+
+You will need to locate the Resource tab on the right
+
+Locate the "Debug" field and change the value from '0' to '1'
+
+---
 
 ### Change descend rate in GPS mode for faster descend rate, but not as fast as Sport+
 normal_cfg_vel_down -3(stock) -6
