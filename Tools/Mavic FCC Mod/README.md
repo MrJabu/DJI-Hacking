@@ -1,5 +1,7 @@
 ## The files are for the DJI Mavic
 
+https://dji.retroroms.info/howto/dji_configs
+
 Allows the ability to change Output Power from 0.09W to 1.5W
 
 and change the Output Frequency to 2.4-2.475ghz, 2.33ghz, and 2.57ghz

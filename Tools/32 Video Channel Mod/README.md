@@ -1,5 +1,7 @@
 This is for the P3P, P3A, P4P
 
+https://dji.retroroms.info/howto/dji_configs
+
 This file adds additional channels within the 2.4 ghz band increasing them to 32.
 
 Depending on the GO App, by selecting “manual channel selection” one of the additional channels can be set.
