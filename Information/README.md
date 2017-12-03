@@ -22,3 +22,5 @@ http://www.kanzhaji.com/?p=38643
 
 https://phantompilots.com/threads/made-some-rf-discoveries-today.114145/
 
+https://mavicpilots.com/threads/whats-the-internal-usb-port-for-the-one-behind-the-status-led.1693/
+
