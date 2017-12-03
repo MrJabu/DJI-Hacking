@@ -1,5 +1,4 @@
-Ability to modify device parameters
-
+# Ability to modify device parameters
 
 
 This can be done on any version you use.
@@ -9,14 +8,11 @@ Look for " // mainWindow.webContents.openDevTools()"
 Delete the "// " (slash slash from that line
 Save the file
 
-
-
-
-Change descend rate in GPS mode for faster descend rate, but not as fast as Sport+
+### Change descend rate in GPS mode for faster descend rate, but not as fast as Sport+
 normal_cfg_vel_down -3(stock) -6
 normal_cfg_acc_down -5(stock) -6
 
-Change the High Wind Warnings so they don't trigger so often (from rford71)
+### Change the High Wind Warnings so they don't trigger so often (from rford71)
 stock
 g_config_air_est_big_wind_level1 6
 g_config_air_est_big_wind_level2 9
@@ -27,12 +23,9 @@ Kilrah recommends:
 g_config_air_est_big_wind_level1 8
 g_config_air_est_big_wind_level2 11
 
+### Here are some parameter settings you can change
 
-
-
-Here are some parameter settings you can change
-
-Recommended settings from digdat0 and others. These are the settings I use for the Mavic:
+### Recommended settings from digdat0 and others. These are the settings I use for the Mavic:
 #Sport+
 g_config_mode_sport_cfg_tilt_atti_range = 43 (35 stock)
 g_config_mode_sport_cfg_vert_vel_up= 9
@@ -79,10 +72,10 @@ g_config_control_mode[2] (fswitch_selection_2) 7 = GPS Mode Default
 Changing either to 6 will add beginner mode on the switch
 Changing either to 3 is ATTI so you can either change GPS mode or Sport Mode position to ATTI
 
-Setting that will level your gimbal when you land automatically
+### Setting that will level your gimbal when you land automatically
 g_config_landing_ctrl_gimbal_pitch_to_horiz_enable 1 (0)
 
-Here are my Spark settings I fly with
+### Here are my Spark settings I fly with
 #Sport+
 g_config_mode_sport_cfg_tilt_atti_range = 45 (35 stock)
 g_config_mode_sport_cfg_vert_vel_up= 10
@@ -126,5 +119,5 @@ g_config_control_mode[2] (fswitch_selection_2) 7 = GPS Mode Default
 Changing either to 6 will add beginner mode on the switch
 Changing either to 3 is ATTI so you can either change GPS mode or Sport Mode position to ATTI
 
-Setting that will level your gimbal when you land automatically
+### Setting that will level your gimbal when you land automatically
 g_config_landing_ctrl_gimbal_pitch_to_horiz_enable 1 (1)
