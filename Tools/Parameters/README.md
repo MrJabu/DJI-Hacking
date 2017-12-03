@@ -64,7 +64,7 @@ g_config_go_home_gohome_idle_vel = 13
 ##### Turn off Auto Land on low battery *you will get warnings, but will not auto land if the -value is 0*
 g_config_landing_auto_landing_vel_L1 = -1 (-1) *L1 sets descend rate below approx. 20m
 g_config_landing_auto_landing_vel_L2 = -6 (-3) *L2 sets descend rate above 20m *fast descend rate for 1st stage of Auto landing*
-##### *Be careful with this setting. If you have the value as 0, the quad will just sit there and you need to manually bring it down.*
+*Be careful with this setting. If you have the value as 0, the quad will just sit there and you need to manually bring it down.*
 
 ##### Atti Mode (via sport mode button)*this will stick on .700, but will revert to GPS mode on newer firmware*
 g_config_control_mode[1] (fswitch_selection_1) 8 = Sport Mode Default
