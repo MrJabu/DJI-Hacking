@@ -14,3 +14,9 @@ https://www.rcgroups.com/forums/showthread.php?2916078-DJI-Dashboard-How-To-tips
 
 https://nolimitdronez.com/
 
+http://forums.multicopterpilots.com/forumdisplay.php?f=57
+
+http://www.kanzhaji.com
+
+http://www.kanzhaji.com/?p=38643
+
