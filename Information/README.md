@@ -28,3 +28,6 @@ https://youtu.be/BTQ_CTih1HM
 
 https://youtu.be/0OJebU7AOvw
 
+https://dronelife.com/2017/11/20/department-13-critique-dji-aeroscope/
+
+https://dronelife.com/2017/11/16/dji-flawed-bug-bounty-program/
