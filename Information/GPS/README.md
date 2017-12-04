@@ -33,3 +33,7 @@ go to setting, keep click on "Flight Controller SN", then it will pop up a secre
 actually there is a password to change code manually, and also device SN !
 
 but he don't share the password because it is too danger to share to public (but I guess we can change SN by web socket command ?)
+
+
+password = djitestcc
+
