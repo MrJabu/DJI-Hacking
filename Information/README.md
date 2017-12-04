@@ -25,3 +25,6 @@ https://phantompilots.com/threads/made-some-rf-discoveries-today.114145/
 https://mavicpilots.com/threads/whats-the-internal-usb-port-for-the-one-behind-the-status-led.1693/
 
 https://youtu.be/BTQ_CTih1HM
+
+https://youtu.be/0OJebU7AOvw
+
