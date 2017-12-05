@@ -1,0 +1,369 @@
+include Makefile.inc
+
+CONFIGFILES = \
+	kismet.conf \
+	kismet_httpd.conf \
+	kismet_alerts.conf \
+	kismet_memory.conf \
+	kismet_storage.conf \
+	kismet_logging.conf
+
+# Common pure-c code for capturesource binaries
+DATASOURCE_COMMON_C_O = \
+	msgpuck.c.o msgpuck_hints.c.o \
+	simple_ringbuf_c.c.o msgpuck_buffer.c.o \
+	simple_datasource_proto.c.o capture_framework.c.o 
+DATASOURCE_COMMON_A = libkismetdatasource.a
+
+CAPTURE_PCAPFILE_O = \
+	capture_pcapfile.c.o
+CAPTURE_PCAPFILE 	= kismet_cap_pcapfile
+BUILD_CAPTURE_PCAPFILE = @BUILD_CAPTURE_PCAPFILE@
+
+CAPTURE_LINUX_WIFI	= capture_linux_wifi/kismet_cap_linux_wifi
+BUILD_CAPTURE_LINUX_WIFI = @BUILD_CAPTURE_LINUX_WIFI@
+
+CAPTURE_HACKRF_SWEEP_O = \
+	capture_hackrf_sweep.c.o
+CAPTURE_HACKRF_SWEEP = kismet_cap_hackrf_sweep
+BUILD_CAPTURE_HACKRF_SWEEP = @BUILD_CAPTURE_HACKRF_SWEEP@
+
+CAPTURE_LINUX_BLUETOOTH = capture_linux_bluetooth/kismet_cap_linux_bluetooth
+BUILD_CAPTURE_LINUX_BLUETOOTH = @BUILD_CAPTURE_LINUX_BLUETOOTH@
+
+# Capture binaries to build
+DATASOURCE_BINS = @DATASOURCE_BINS@
+
+KAITAI_PARSERS = \
+	kaitai_parsers/wpaeap.cc.o \
+	kaitai_parsers/dot11_action.cc.o \
+	kaitai_parsers/dot11_ie_7_country.cc.o \
+	kaitai_parsers/dot11_ie_11_qbss.cc.o \
+	kaitai_parsers/dot11_ie_48_rsn.cc.o \
+	kaitai_parsers/dot11_ie_48_rsn_partial.cc.o \
+	kaitai_parsers/dot11_ie_52_rmm_neighbor.cc.o \
+	kaitai_parsers/dot11_ie_54_mobility.cc.o \
+	kaitai_parsers/dot11_ie_61_ht.cc.o \
+	kaitai_parsers/dot11_ie_133_cisco_ccx.cc.o \
+	kaitai_parsers/dot11_ie_192_vht_operation.cc.o \
+	kaitai_parsers/dot11_ie_221_vendor.cc.o \
+	kaitai_parsers/dot11_ie_221_ms_wps.cc.o \
+	kaitai_parsers/dot11_ie_221_ms_wmm.cc.o \
+	kaitai_parsers/dot11_ie_221_dji_droneid.cc.o
+
+PSO	= util.cc.o cygwin_utils.cc.o globalregistry.cc.o \
+	pollabletracker.cc.o ringbuf2.cc.o chainbuf.cc.o buffer_handler.cc.o \
+	packet.cc.o messagebus.cc.o configfile.cc.o getopt.cc.o filtercore.cc.o \
+	psutils.cc.o battery.cc.o kismet_json.cc.o \
+	tcpserver2.cc.o tcpclient2.cc.o serialclient2.cc.o pipeclient.cc.o ipc_remote2.cc.o \
+	datasourcetracker.cc.o kis_datasource.cc.o \
+	datasource_linux_bluetooth.cc.o \
+	kis_net_microhttpd.cc.o system_monitor.cc.o base64.cc.o \
+	kis_httpd_websession.cc.o kis_httpd_registry.cc.o \
+	gpstracker.cc.o kis_gps.cc.o gpsserial2.cc.o gpsgpsd2.cc.o gpsfake.cc.o gpsweb.cc.o \
+	packetchain.cc.o \
+	trackedelement.cc.o entrytracker.cc.o \
+	tracked_location.cc.o devicetracker_component.cc.o \
+	msgpack_adapter.cc.o json_adapter.cc.o \
+	plugintracker.cc.o alertracker.cc.o timetracker.cc.o channeltracker2.cc.o \
+	devicetracker.cc.o devicetracker_workers.cc.o devicetracker_httpd.cc.o \
+	statealert.cc.o \
+	kis_dlt.cc.o kis_dlt_ppi.cc.o kis_dlt_radiotap.cc.o \
+	kaitaistream.cc.o \
+	$(KAITAI_PARSERS) \
+	phy_80211.cc.o phy_80211_dissectors.cc.o phy_rtl433.cc.o phy_zwave.cc.o \
+	phy_bluetooth.cc.o phy_uav_drone.cc.o \
+	kis_dissector_ipdata.cc.o \
+	manuf.cc.o \
+	logtracker.cc.o kis_ppilogfile.cc.o kis_databaselogfile.cc.o \
+	messagebus_restclient.cc.o \
+	streamtracker.cc.o \
+	pcapng_stream_ringbuf.cc.o streambuf_stream_buffer.cc.o \
+	devicetracker_httpd_pcap.cc.o phy_80211_httpd_pcap.cc.o \
+	kis_database.cc.o storageloader.cc.o \
+	kismet_server.cc.o 
+
+PS	= kismet
+
+ALL	= Makefile $(PS) $(DATASOURCE_BINS)
+
+INSTBINS = $(PS) $(DATASOURCE_BINS)
+
+all:	$(ALL)
+
+all-with-plugins:
+	@make plugins-clean
+	@make all
+	@make plugins
+
+$(PS):	$(PSO) $(patsubst %c.o,%c.d,$(PSO))
+	$(LD) $(LDFLAGS) -o $(PS) $(PSO) $(LIBS) $(CXXLIBS) $(PCAPLIBS) $(KSLIBS) -rdynamic
+
+$(DATASOURCE_COMMON_A):	$(DATASOURCE_COMMON_C_O)
+	$(AR) rcs $(DATASOURCE_COMMON_A) $(DATASOURCE_COMMON_C_O)
+
+$(CAPTURE_PCAPFILE):	$(CAPTURE_PCAPFILE_O) $(DATASOURCE_COMMON_A)
+	$(CC) $(LDFLAGS) -o $(CAPTURE_PCAPFILE) $(CAPTURE_PCAPFILE_O) $(DATASOURCE_COMMON_A) $(PCAPLIBS) $(DATASOURCE_LIBS)
+
+$(CAPTURE_LINUX_WIFI):	$(DATASOURCE_COMMON_A) FORCE
+	(cd capture_linux_wifi && $(MAKE))
+
+$(CAPTURE_LINUX_BLUETOOTH):	$(DATASOURCE_COMMON_A) FORCE
+	(cd capture_linux_bluetooth && $(MAKE))
+
+$(CAPTURE_HACKRF_SWEEP):	$(CAPTURE_HACKRF_SWEEP_O) $(DATASOURCE_COMMON_A)
+	$(CC) $(LDFLAGS) -o $(CAPTURE_HACKRF_SWEEP) $(CAPTURE_HACKRF_SWEEP_O) $(DATASOURCE_COMMON_A) -lhackrf -lfftw3 $(LIBMLIB) -lpthread -lm
+
+FORCE:
+
+datasources:	$(DATASOURCE_BINS)
+
+Makefile: Makefile.in configure
+	@-echo "'Makefile.in' or 'configure' are more current than this Makefile.  You should re-run 'configure'."
+
+binsuidinstall: $(DATASOURCE_BINS)
+	mkdir -p $(BIN)/kismet_capture_tools/
+
+	@if test "$(BUILD_CAPTURE_LINUX_WIFI)"x = "1"x; then \
+		$(INSTALL) -o $(INSTUSR) -g $(SUIDGROUP) -m 4550 $(CAPTURE_LINUX_WIFI) $(BIN)/kismet_capture_tools/`basename $(CAPTURE_LINUX_WIFI)`; \
+	fi;
+
+	@if test "$(BUILD_CAPTURE_LINUX_BLUETOOTH)"x = "1"x; then \
+		$(INSTALL) -o $(INSTUSR) -g $(SUIDGROUP) -m 4550 $(CAPTURE_LINUX_BLUETOOTH) $(BIN)/kismet_capture_tools/`basename $(CAPTURE_LINUX_BLUETOOTH)`; \
+	fi;
+
+commoninstall: $(INSTBINS)
+	mkdir -p $(ETC)
+	mkdir -p $(BIN)
+
+	$(INSTALL) -o $(INSTUSR) -g $(INSTGRP) -m 555 $(PS) $(BIN)/$(PS); 
+
+	# Install the alias script
+	$(INSTALL) -o $(INSTUSR) -g $(INSTGRP) -m 555 kismet_server $(BIN)/kismet_server; 
+
+	mkdir -p $(BIN)/kismet_capture_tools/
+
+	@if test "$(BUILD_CAPTURE_PCAPFILE)"x = "1"x; then \
+		$(INSTALL) -o $(INSTUSR) -g $(INSTGRP) $(CAPTURE_PCAPFILE) $(BIN)/kismet_capture_tools/$(CAPTURE_PCAPFILE); \
+	fi;
+
+	@if test "$(BUILD_CAPTURE_LINUX_WIFI)"x = "1"x; then \
+		$(INSTALL) -o $(INSTUSR) -g $(INSTGRP) $(CAPTURE_LINUX_WIFI) $(BIN)/kismet_capture_tools/`basename $(CAPTURE_LINUX_WIFI)`; \
+	fi;
+
+	@if test "$(BUILD_CAPTURE_LINUX_BLUETOOTH)"x = "1"x; then \
+		$(INSTALL) -o $(INSTUSR) -g $(INSTGRP) $(CAPTURE_LINUX_BLUETOOTH) $(BIN)/kismet_capture_tools/`basename $(CAPTURE_LINUX_BLUETOOTH)`; \
+	fi;
+
+	@if test "$(BUILD_CAPTURE_HACKRF_SWEEP)"x = "1"x; then \
+		$(INSTALL) -o $(INSTUSR) -g $(INSTGRP) $(CAPTURE_HACKRF_SWEEP) $(BIN)/kismet_capture_tools/$(CAPTURE_HACKRF_SWEEP); \
+	fi;
+
+	mkdir -p $(MAN)/man1
+	$(INSTALL) -o $(INSTUSR) -g $(MANGRP) -m 644 man/kismet.1 $(MAN)/man1/kismet.1
+
+	mkdir -p $(MAN)/man5
+	$(INSTALL) -o $(INSTUSR) -g $(MANGRP) -m 644 man/kismet.conf.5 $(MAN)/man5/kismet.conf.5
+
+	mkdir -p $(LIB)/pkgconfig
+	$(INSTALL) -o $(INSTUSR) -g $(INSTGRP) -m 644 packaging/kismet.pc $(LIB)/pkgconfig/kismet.pc
+
+	mkdir -p $(HTTPD)
+	cp -r http_data/* $(HTTPD)
+
+CONFINSTTARGETS = $(addprefix install_conf_, $(CONFIGFILES))
+${CONFINSTTARGETS}: install_conf_%: 
+	@if test -f $(ETC)/$*; then \
+		echo "$(ETC)/$(f) already exists; it will not be automatically replaced."; \
+		echo "HOWEVER if there have been any changes you will need to manually"; \
+		echo "reconcile the differences in the config files!"; \
+		echo "You can update all config files with"; \
+		echo "make forceconfigs"; \
+	else \
+		$(INSTALL) -o $(INSTUSR) -g $(INSTGRP) -m 644 conf/$* $(ETC)/$*;  \
+		echo install -o $(INSTUSR) -g $(INSTGRP) -m 644 conf/$* $(ETC)/$*;  \
+	fi
+
+FORCECONFINSTTARGETS = $(addprefix install_force_conf_, $(CONFIGFILES))
+${FORCECONFINSTTARGETS}: install_force_conf_%: 
+	$(INSTALL) -o $(INSTUSR) -g $(INSTGRP) -m 644 conf/$* $(ETC)/$*;  
+
+suidinstall: $(PS) $(DATASOURCE_BINS)
+	-groupadd -f $(SUIDGROUP)
+
+	@$(MAKE) -e commoninstall
+	@$(MAKE) -e binsuidinstall
+
+	@$(MAKE) install_conf_kismet.conf
+	@$(MAKE) install_conf_kismet_httpd.conf
+	@$(MAKE) install_conf_kismet_memory.conf
+	@$(MAKE) install_conf_kismet_alerts.conf
+	@$(MAKE) install_conf_kismet_storage.conf
+	@$(MAKE) install_conf_kismet_logging.conf
+
+	@echo
+	@echo
+	@echo "Installed kismet into $(BIN)/."
+	@echo "If you have not done so already, read the README file and the FAQ file.  Additional"
+	@echo "documentation is in the docs/ directory.  You MUST edit $(ETC)/kismet.conf "
+	@echo "and configure Kismet for your system, or it will NOT run properly!"
+	@echo
+	@echo "Kismet has been installed with a SUID ROOT CAPTURE HELPER executeable by "
+	@echo "users in the group '" $(SUIDGROUP) "'.  This WILL ALLOW USERS IN THIS GROUP "
+	@echo "TO ALTER YOUR NETWORK INTERACE STATES, but is more secure than running "
+	@echo "all of Kismet as root.  ONLY users in this group will be able to "
+	@echo "run Kismet and capture from physical network devices."
+	@echo
+	@echo "If you have just created this group, you will need to log out and back in"
+	@echo "before your user will have access.   Check the output of the 'groups' "
+	@echo "command to make sure your user has the proper group!"
+	@echo
+	@echo "If you have installed Kismet in the past, you may need to UPDATE YOUR CONFIG"
+	@echo "FILES or Kismet may not work properly!  You can manually reconcile differences"
+	@echo "or you can replace the previously installed config files entirely by running"
+	@echo "make forceconfigs"
+
+install: $(INSTBINS)
+	@$(MAKE) -e commoninstall
+
+	@$(MAKE) install_conf_kismet.conf
+	@$(MAKE) install_conf_kismet_httpd.conf
+	@$(MAKE) install_conf_kismet_memory.conf
+	@$(MAKE) install_conf_kismet_alerts.conf
+	@$(MAKE) install_conf_kismet_storage.conf
+	@$(MAKE) install_conf_kismet_logging.conf
+
+	@echo
+	@echo
+	@echo "Installed kismet into $(BIN)/."
+	@echo "If you have not done so already, read the README file and the FAQ file.  Additional"
+	@echo "documentation is in the docs/ directory.  You MUST edit $(ETC)/kismet.conf "
+	@echo "and configure Kismet for your system, or it will NOT run properly!"
+	@echo
+	@echo "Kismet has NOT been installed suid-root.  This means you will need to start "
+	@echo "it as root.  If you add your user to the $(SUIDGROUP) group and install "
+	@echo "Kismet with 'make suidinstall', users in that group will be able to "
+	@echo "run Kismet directly."
+	@echo
+	@echo "READ THE KISMET DOCUMENTATION ABOUT THE KISMET SECURITY MODEL TO"
+	@echo "DECIDE IF YOU WANT TO INSTALL IT SUID-ROOT"
+	@echo
+	@echo "It is generally *MORE SECURE* to install Kismet with the suid-root "
+	@echo "option."
+	@echo
+	@echo "If you have installed Kismet in the past, you may need to UPDATE YOUR CONFIG"
+	@echo "FILES or Kismet may not work properly!  You can manually reconcile differences"
+	@echo "or you can replace the previously installed config files entirely by running"
+	@echo "make forceconfigs"
+
+forceconfigs: 
+	@$(MAKE) install_force_conf_kismet.conf
+	@$(MAKE) install_force_conf_kismet_httpd.conf
+	@$(MAKE) install_force_conf_kismet_memory.conf
+	@$(MAKE) install_force_conf_kismet_alerts.conf
+	@$(MAKE) install_force_conf_kismet_storage.conf
+	@$(MAKE) install_force_conf_kismet_logging.conf
+
+rpm:
+	@echo "Disabling SUID installation (RPM will handle setting the SUID bit.)"
+	@( export SUID="no"; export INSTGRP=`id -g`; export MANGRP=`id -g`; \
+		export INSTUSR=`id -u`; $(MAKE) -e install )
+
+depclean:
+	@-rm -f *.d
+
+clean:
+	@-rm -f *.o *.mo
+	@-rm -f *.d
+	@-rm -f kaitai_parsers/*.o
+	@-rm -f kaitai_parsers/*.d
+	@-$(MAKE) all-plugins-clean
+	@-rm -f $(PS)
+	@-rm -f $(DATASOURCE_BINS)
+	@(cd capture_linux_bluetooth; make clean)
+	@(cd capture_linux_wifi; make clean)
+	@(cd msgpack-1.4.1; make clean)
+
+distclean:
+	@-$(MAKE) clean
+	@-$(MAKE) all-plugins-clean
+	@-rm -f *~
+	@-rm -f config.status
+	@-rm -f config.h
+	@-rm -f config.log
+	@-rm -rf packaging/ipkg/usr 
+	@-rm -rf packaging/pak
+	@-rm -rf *.ipk
+	@-rm -f scripts/kismet
+	@-rm -f Makefile
+
+plugins: Makefile
+	@( export KIS_SRC_DIR=`pwd`; for x in plugin-*/; do  if [ ! -d "$$x" ]; then continue; fi; echo "PLUGIN: $$x"; ( cd "$$x"; make; ); done )
+
+restricted-plugins: Makefile
+	@( export KIS_SRC_DIR=`pwd`; for x in restricted-plugin-*/; do  if [ ! -d "$$x" ]; then continue; fi; echo "PLUGIN: $$x"; ( cd "$$x"; make; ); done )
+
+plugins-clean:
+	@( export KIS_SRC_DIR=`pwd`; for x in plugin-*/; do  if [ ! -d "$$x" ]; then continue; fi; echo "PLUGIN-CLEAN: $$x"; ( cd "$$x"; make clean; ); done )
+
+restricted-plugins-clean:
+	@( export KIS_SRC_DIR=`pwd`; for x in restricted-plugin-*/; do  if [ ! -d "$$x" ]; then continue; fi; echo "PLUGIN-CLEAN: $$x"; ( cd "$$x"; make clean; ); done )
+
+plugins-install: Makefile
+	@( export KIS_SRC_DIR=`pwd`; for x in plugin-*/; do  if [ ! -d "$$x" ]; then continue; fi; echo "PLUGIN-INSTALL: $$x"; ( cd "$$x"; make install; ); done )
+
+restricted-plugins-install: Makefile
+	@( export KIS_SRC_DIR=`pwd`; for x in restricted-plugin-*/; do  if [ ! -d "$$x" ]; then continue; fi; echo "PLUGIN-INSTALL: $$x"; ( cd "$$x"; make install; ); done )
+
+plugins-userinstall: Makefile
+	@( export KIS_SRC_DIR=`pwd`; for x in plugin-*/; do  if [ ! -d "$$x" ]; then continue; fi; echo "PLUGIN-USERINSTALL: $$x"; ( cd "$$x"; make userinstall; ); done )
+
+restricted-plugins-userinstall: Makefile
+	@( export KIS_SRC_DIR=`pwd`; for x in restricted-plugin-*/; do  if [ ! -d "$$x" ]; then continue; fi; echo "PLUGIN-USERINSTALL: $$x"; ( cd "$$x"; make userinstall; ); done )
+
+all-plugins: Makefile
+	@$(MAKE) plugins
+	@$(MAKE) restricted-plugins
+
+all-plugins-install: Makefile
+	@$(MAKE) plugins-install
+	@$(MAKE) restricted-plugins-install
+
+all-plugins-userinstall: Makefile
+	@$(MAKE) plugins-userinstall
+	@$(MAKE) restricted-plugins-userinstall
+
+all-plugins-clean: Makefile
+	@$(MAKE) plugins-clean
+	@$(MAKE) restricted-plugins-clean
+
+kaitai-parsers:
+	@echo "Re-generating the kaitai_struct parsers requires the gpl3 licensed "
+	@echo "kaitai_struct compiler; see http://http://kaitai.io/ for more info!"
+	kaitai-struct-compiler --outdir kaitai_parsers/ -t cpp_stl -I kaitai_definitions/ kaitai_definitions/*.ksy
+	file-rename -v -f 's/\.cpp$$/\.cc/' kaitai_parsers/*.cpp 
+
+%.c.o:	%.c
+%.c.o : %.c %.c.d
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $*.c -o $@
+
+%.cc.o: %.cc
+%.cc.o:	%.cc %.cc.d
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $*.cc -o $@
+
+%.c.d:  %.c
+	$(CC) -MM $(CFLAGS) $(CPPFLAGS) $*.c | sed -e "s/\.o/\.c.o/" > $*.c.d
+
+%.cc.d: %.cc
+	$(CXX) -MM $(CXXFLAGS) $(CPPFLAGS) $*.cc | sed -e "s/\.o/\.cc.o/" > $*.cc.d
+
+.PRECIOUS: %.Td %.c.d %.cc.d
+
+include $(wildcard $(patsubst %c.o,%c.d,$(PSO)))
+include $(wildcard $(patsubst %c.o,%c.d,$(DATASOURCE_COMMON_C_O)))
+ifneq ($(BUILD_CAPTURE_PCAPFILE)x, "x")
+	include $(wildcard $(patsubst %c.o,%c.d,$(CAPTURE_PCAPFILE_O)))
+endif
+
+.SUFFIXES: .c .cc .o 
+

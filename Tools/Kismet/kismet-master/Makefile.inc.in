@@ -1,0 +1,56 @@
+INSTGRP 	?= "@instgrp@"
+MANGRP 		?= "@mangrp@"
+INSTUSR 	?= "root"
+
+BLDHOME		= @srcdir@
+
+CXX			= @CXX@
+CC			= @CC@
+LD			= @CXX@
+CCLD		= @CC@
+
+LDFLAGS		+= @LDFLAGS@
+CFLAGS		+= -Wall -g @NMCFLAGS@ @NLCFLAGS@ @CPPFLAGS@
+CXXFLAGS 	+= -Wall -g -I. @CXXFLAGS@
+CPPFLAGS 	+= @CPPFLAGS@ 
+
+INSTALL		= @INSTALL@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+
+LIBS		+= @LIBS@
+CLIBS   	+= @CLIBS@
+CXXLIBS		+= @CXXLIBS@
+KSLIBS		+= @KSLIBS@
+
+CAPLIBS		= @caplibs@
+NETLINKLIBS	= @NLLIBS@
+AIRCAPLIBS	= @airpcaplib@
+
+NMFLAGS		= @NMCFLAGS@
+NMLIBS		= @NMLIBS@
+
+PCAPLIBS	= @pcaplnk@
+
+LIBMLIB		= @LIBMLIB@
+
+SUIDGROUP 	= @suidgroup@
+
+DATASOURCE_LIBS	+= $(CAPLIBS) -lpthread -lm
+
+
+prefix 		= @prefix@
+exec_prefix = @exec_prefix@
+plugindir	= @libdir@/kismet
+ETC			= ${DESTDIR}@sysconfdir@
+BIN			= ${DESTDIR}@bindir@
+SHARE 		= ${DESTDIR}@datadir@/kismet/
+MAN 		= ${DESTDIR}@mandir@
+LIB			= ${DESTDIR}@libdir@
+WAV 		= ${DESTDIR}@datadir@/kismet/wav/
+HTTPD		= ${DESTDIR}@datadir@/kismet/httpd/
+
+PLUGINLDFLAGS += @PLUGINLDFLAGS@ @LDFLAGS@
+
