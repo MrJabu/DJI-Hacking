@@ -37,3 +37,11 @@ https://thehackernews.com/2017/12/dji-drone-china-spying.html?m=1
 https://www.nytimes.com/interactive/2015/technology/guide-to-civilian-drones.html
 
 https://www.nytimes.com/2017/11/29/technology/dji-china-data-drones.html
+
+http://tweettunnel.com/cn0xroot
+
+https://twitter.com/cn0Xroot
+
+https://twitter.com/d0tslash
+
+https://twitter.com/vessial
