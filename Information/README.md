@@ -31,3 +31,9 @@ https://youtu.be/0OJebU7AOvw
 https://dronelife.com/2017/11/20/department-13-critique-dji-aeroscope/
 
 https://dronelife.com/2017/11/16/dji-flawed-bug-bounty-program/
+
+https://thehackernews.com/2017/12/dji-drone-china-spying.html?m=1
+
+https://www.nytimes.com/interactive/2015/technology/guide-to-civilian-drones.html
+
+https://www.nytimes.com/2017/11/29/technology/dji-china-data-drones.html
