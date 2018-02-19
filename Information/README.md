@@ -51,3 +51,5 @@ http://www.openpilotlegacy.org/dji.go.v4_4.1.14-1027326-noSecNeo.apk
 http://www.openpilotlegacy.org/DJI_GO_4_dji.go.v4_4.1.15_V3027412-nosecneo.apk
 
 http://www.openpilotlegacy.org/Go3-nosecneo.apk
+
+http://www.openpilotlegacy.org/dji.go.v4-4.1.22-3028592-noseceo.apk
